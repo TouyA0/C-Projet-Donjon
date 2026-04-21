@@ -79,6 +79,7 @@ int DonjonCharger(const char *fichier, tDonjon *dj, int *departX, int *departY) 
     // taille du donjon
     int w, h;
     fscanf(f, "%d %d", &w, &h);
+    fscanf(f, "%*c");
 
     // cree le donjon
     *dj = DonjonCreer(w, h);
@@ -92,6 +93,10 @@ int DonjonCharger(const char *fichier, tDonjon *dj, int *departX, int *departY) 
         for (int x = 0; x < w; x++) {
             char c;
             fscanf(f, "%c", &c);
+
+            while (c == ' ' || c == '\n') {
+                fscanf(f, "%c", &c);
+            }
 
             if (c == '#') {
                 tSalle nv_salle = SalleCreerMur();
