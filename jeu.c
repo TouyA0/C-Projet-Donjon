@@ -9,6 +9,7 @@ static void cmd_help(struct sJeu *g);
 static int cmd_move(struct sJeu *g, int dx, int dy);
 static void cmd_take(struct sJeu *g, const char *name);
 static void cmd_drop(struct sJeu *g, const char *name);
+static void cmd_fight(struct sJeu *g);
 
 struct sJeu *JeuCreer(const char *fichierDonjon) {
     if (fichierDonjon == NULL) {
@@ -109,6 +110,8 @@ void execute_command(struct sJeu *g, char *ligne_cmd) {
     } else if (strcmp(cmd, "drop") == 0) {
         char *obj = strtok(NULL, " "); // recup deuxieme mot
         cmd_drop(g, obj);
+    } else if (strcmp(cmd, "fight") == 0 || strcmp(cmd, "f") == 0) {
+        cmd_fight(g);
     } else {
         UI_DefinirMessage(g->ui, "Commande inconnue");
     }
@@ -191,5 +194,47 @@ void cmd_drop(struct sJeu *g, const char *name) {
     // retire l'objet de l'inv du joueur et l'ajoute à la salle
     if (!(InventaireRetirer(JoueurInventaire(g->j), name, 1) && InventaireAjouter(SalleObjets(salle), name, 1))) {
         UI_DefinirMessage(g->ui, "Erreur lors de l’ajout dans la salle");
+    }
+}
+
+void cmd_fight(struct sJeu *g) {
+    if (g == NULL) {
+        return;
+    }
+
+    // recup salle actuelle
+    int x, y;
+    JoueurPosition(g->j, &x, &y);
+    tSalle salle = DonjonSalle(g->d, x, y);
+    if (salle == NULL) {
+        return;
+    }
+    
+    tEnnemi ennemi = SalleEnnemi(salle);
+
+    // si aucun ennemi dans la salle
+    if (ennemi == NULL || !EnnemiEstVivant(ennemi)) {
+        UI_DefinirMessage(g->ui, "Aucun ennemi ici");
+        return;
+    }
+
+    // joueur attaque ennemi
+    int degats_joueur = EnnemiSubirAttaque(ennemi, g->j);
+
+    // si ennemi vivant
+    if (EnnemiEstVivant(ennemi)) {
+        int degats_ennemi = EnnemiAttaquerJoueur(ennemi, g->j);
+        
+        if (JoueurPV(g->j) > 0) {
+            UI_DefinirMessage(g->ui, "Vous infligez %d degats. L'ennemi riposte (%d).", degats_joueur, degats_ennemi);
+        } else {
+            UI_DefinirMessage(g->ui, "Vous infligez %d degats. L'ennemi riposte (%d). Vous etes mort.", degats_joueur, degats_ennemi);
+        }
+    } else { // si ennemi mort
+        UI_DefinirMessage(g->ui, "Vous infligez %d degats. L'ennemi est mort.", degats_joueur);
+
+        // retirer ennemi de la salle
+        EnnemiLiberer(&ennemi);
+        SalleAjouterEnnemi(salle, NULL);
     }
 }

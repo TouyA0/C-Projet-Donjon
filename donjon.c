@@ -118,7 +118,7 @@ int DonjonCharger(const char *fichier, tDonjon *dj, int *departX, int *departY) 
 
     // directives : descriptions / items salles
     char directive[20];
-    int x, y, qte;
+    int x, y, qte, pv, atk, def;
     char desc[256];
     char nom[50];
     
@@ -132,6 +132,13 @@ int DonjonCharger(const char *fichier, tDonjon *dj, int *departX, int *departY) 
             fscanf(f, "%d %d %s %d", &x, &y, nom, &qte);
 
             InventaireAjouter(SalleObjets(DonjonSalle(*dj, x, y)), nom, qte);
+        } else if (strcmp(directive, "ENEMY") == 0) { // si ennemi
+            fscanf(f, "%d %d %s %d %d %d", &x, &y, nom, &pv, &atk, &def);
+
+            tEnnemi ennemi = EnnemiCreer(nom, pv, atk, def);
+            if (ennemi != NULL) {
+                SalleAjouterEnnemi(DonjonSalle(*dj, x, y), ennemi);
+            }
         }
     }
 

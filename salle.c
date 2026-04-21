@@ -14,6 +14,7 @@ tSalle SalleCreerMur(void) {
     nv_salle->visitee = 0;
     nv_salle->desc = NULL;
     nv_salle->objets = NULL;
+    nv_salle->ennemi = NULL;
 
     return nv_salle;
 }
@@ -26,6 +27,7 @@ tSalle SalleCreerVide(void) {
 
     nv_salle->existe = 1;
     nv_salle->visitee = 0;
+    nv_salle->ennemi = NULL;
 
     nv_salle->desc = malloc(100); // taille pas spécifié
     if (nv_salle->desc == NULL) {
@@ -49,9 +51,10 @@ void SalleLiberer(tSalle *ps) {
         return;
     }
 
-    // si pas un mur -> libérer inventaire + description
+    // si pas un mur -> libérer inventaire + description + ennemi
     if ((*ps)->existe == 1) {
         InventaireLiberer(&(*ps)->objets);
+        EnnemiLiberer(&(*ps)->ennemi);
         free((*ps)->desc);
     }
 
@@ -115,5 +118,19 @@ int SalleMajDescription(tSalle s, const char *desc) {
 void SalleVisiter(tSalle s) {
     if (s != NULL) {
         s->visitee = 1;
+    }
+}
+
+tEnnemi SalleEnnemi(tSalle s) {
+    if (s == NULL) {
+        return NULL;
+    }
+
+    return s->ennemi;
+}
+
+void SalleAjouterEnnemi(tSalle s, const tEnnemi e) {
+    if (s != NULL && e != NULL) {
+        s->ennemi = e;
     }
 }

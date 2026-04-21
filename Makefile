@@ -1,10 +1,10 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99 -DNIV01
+CFLAGS = -Wall -Wextra -std=c99
 LDFLAGS = -lncurses
 
 # Fichiers sources communs
-SOURCES = inventaire.c joueur.c salle.c donjon.c ui_nc.c jeu.c
-OBJECTS = inventaire.o joueur.o salle.o donjon.o ui_nc.o jeu.o
+SOURCES = inventaire.c joueur.c salle.c donjon.c ennemi.c ui_nc.c jeu.c
+OBJECTS = inventaire.o joueur.o salle.o donjon.o ennemi.o ui_nc.o jeu.o
 
 # Test inventaire
 TEST_INV_SOURCES = test_inventaire.c
@@ -14,7 +14,7 @@ TEST_INV_OBJECTS = test_inventaire.o
 TEST_DONJON_SOURCES = test_donjon.c
 TEST_DONJON_OBJECTS = test_donjon.o
 
-# Application donjon (Niveau 1)
+# Application donjon (Niveau 2)
 MAIN_SOURCES = main.c
 MAIN_OBJECTS = main.o
 
