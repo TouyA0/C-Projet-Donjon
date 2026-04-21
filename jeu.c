@@ -118,7 +118,7 @@ void execute_command(struct sJeu *g, char *ligne_cmd) {
 }
 
 void cmd_help(struct sJeu *g) {
-    UI_DefinirMessage(g->ui, "Commandes: n/e/s/w | take <obj> | drop <obj> | quit | help");
+    UI_DefinirMessage(g->ui, "Commandes: n/e/s/w | take <obj> | drop <obj> | fight | quit | help");
 }
 
 int cmd_move(struct sJeu *g, int dx, int dy) {
