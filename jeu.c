@@ -3,6 +3,13 @@
 #include <string.h>
 #include <stdio.h>
 
+// déclarations privées
+static void execute_command(struct sJeu *g, char *ligne_cmd);
+static void cmd_help(struct sJeu *g);
+static int cmd_move(struct sJeu *g, int dx, int dy);
+static void cmd_take(struct sJeu *g, const char *name);
+static void cmd_drop(struct sJeu *g, const char *name);
+
 struct sJeu *JeuCreer(const char *fichierDonjon) {
     if (fichierDonjon == NULL) {
         return NULL;
