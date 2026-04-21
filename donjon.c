@@ -94,6 +94,7 @@ int DonjonCharger(const char *fichier, tDonjon *dj, int *departX, int *departY) 
             char c;
             fscanf(f, "%c", &c);
 
+            // ne pas prendre en compte espace et saut de ligne
             while (c == ' ' || c == '\n') {
                 fscanf(f, "%c", &c);
             }
