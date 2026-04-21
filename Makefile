@@ -1,19 +1,32 @@
 CC = gcc
-CFLAGS = -Wall -Wextra -std=c99
+CFLAGS = -Wall -Wextra -std=c99 -DNIV01
 LDFLAGS = 
 
-SOURCES = inventaire.c
-OBJECTS = inventaire.o
-TEST_SOURCES = test_inventaire.c
-TEST_OBJECTS = test_inventaire.o
+# Fichiers sources communs
+SOURCES = inventaire.c joueur.c salle.c donjon.c ui.c
+OBJECTS = inventaire.o joueur.o salle.o donjon.o ui.o
 
-.PHONY: test_inventaire clean
+# Test inventaire
+TEST_INV_SOURCES = test_inventaire.c
+TEST_INV_OBJECTS = test_inventaire.o
 
-test_inventaire: $(TEST_OBJECTS) $(OBJECTS)
-	$(CC) $(CFLAGS) -o test_inventaire $(TEST_OBJECTS) $(OBJECTS) $(LDFLAGS)
+# Test donjon
+TEST_DONJON_SOURCES = test_donjon.c
+TEST_DONJON_OBJECTS = test_donjon.o
 
+# Cibles
+.PHONY: test_inventaire test_donjon clean help
+
+test_inventaire: $(TEST_INV_OBJECTS) inventaire.o
+	$(CC) $(CFLAGS) -o test_inventaire $(TEST_INV_OBJECTS) inventaire.o $(LDFLAGS)
+
+test_donjon: $(TEST_DONJON_OBJECTS) $(OBJECTS)
+	$(CC) $(CFLAGS) -o test_donjon $(TEST_DONJON_OBJECTS) $(OBJECTS) $(LDFLAGS)
+
+# Règles de compilation
 %.o: %.c
 	$(CC) $(CFLAGS) -c $< -o $@
 
+# Nettoyage
 clean:
-	rm -f *.o test_inventaire test_inventaire.exe
+	rm -f *.o test_inventaire test_donjon test_inventaire.exe test_donjon.exe
