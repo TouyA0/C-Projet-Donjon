@@ -156,3 +156,18 @@ char *InventaireVersChaine(const tInventaire inv) {
 
     return cont_inv;
 }
+
+int InventaireVisiter (const tInventaire inv, int (*visiter)(const char *nom, int quantite, void *contexte), void *contexte) {
+    if (inv == NULL || visiter == NULL) {
+        return 0;
+    }
+
+    struct sItem *tmp = inv->debut;
+    while (tmp != NULL) {
+        if (visiter(tmp->nom, tmp->quantite, contexte) == 0) {
+            return 0;
+        }
+        tmp = tmp->suiv;
+    }
+    return 1;
+}

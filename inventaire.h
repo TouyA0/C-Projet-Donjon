@@ -34,4 +34,6 @@ int InventaireCompter(const tInventaire inv);
 
 char *InventaireVersChaine(const tInventaire inv);
 
+int InventaireVisiter (const tInventaire inv, int (*visiter)(const char *nom, int quantite, void *contexte), void *contexte);
+
 #endif
