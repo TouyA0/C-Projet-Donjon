@@ -26,6 +26,7 @@ void InventaireVider(tInventaire inv) {
     }
 }
 
+
 void InventaireLiberer(tInventaire *pinv) {
     if (pinv != NULL && *pinv != NULL) {
         InventaireVider(*pinv);
