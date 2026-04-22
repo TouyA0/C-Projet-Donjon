@@ -1,5 +1,6 @@
 #include "jeu.h"
 #include "save.h"
+#include "explore.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -135,13 +136,24 @@ void execute_command(struct sJeu *g, char *ligne_cmd) {
                 UI_DefinirMessage(g->ui, "Erreur lors du chargement");
             }
         }
+    } else if (strcmp(cmd, "cheat") == 0) {
+        char *fichier = strtok(NULL, " "); // recup nom fichier 
+        if (fichier == NULL) {
+            UI_DefinirMessage(g->ui, "Usage: cheat <tracefile>");
+        } else {
+            if (ExploreTrouverTresor(g->d, g->j, fichier)) {
+                UI_DefinirMessage(g->ui, "Tresor trouve ! Trace: %s", fichier);
+            } else {
+                UI_DefinirMessage(g->ui, "Tresor non trouve. Trace: %s", fichier);
+            }
+        }
     } else {
         UI_DefinirMessage(g->ui, "Commande inconnue");
     }
 }
 
 void cmd_help(struct sJeu *g) {
-    UI_DefinirMessage(g->ui, "Commandes: n/e/s/w | take <obj> | drop <obj> | fight | save <fichier> | load <fichier> | quit | help");
+    UI_DefinirMessage(g->ui, "Commandes: n/e/s/w | take <obj> | drop <obj> | fight | save <fichier> | load <fichier> | cheat <tracefile> | quit | help");
 }
 
 int cmd_move(struct sJeu *g, int dx, int dy) {

@@ -48,25 +48,25 @@ int ExploreTrouverTresor(tDonjon d, tJoueur j, const char *fichierTrace) {
     fclose(f);
     free(visite);
 
-    return 0;
+    return trouve;
 }
 
 static int explorerRec(tDonjon d, tJoueur j, int x, int y, unsigned char *visite, FILE *f) {
     if (d == NULL || j == NULL || visite == NULL || f == NULL) {
-        return -1;
+        return 0;
     }
     
     int w = DonjonW(d);
     int h = DonjonH(d);
     if (x < 0 || x >= w || y < 0 || y >= h) {
-        return -1;
+        return 0;
     }
     
     tSalle salle = DonjonSalle(d, x, y);
     
     // verif salle existe et pas deja visitée
     if (salle == NULL || !SalleExiste(salle) || visite[y * w + x]) {
-        return -1;
+        return 0;
     }
     
     // Marquer la salle comme visitée
