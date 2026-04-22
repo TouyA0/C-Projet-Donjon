@@ -1,4 +1,5 @@
 #include "jeu.h"
+#include "save.h"
 #include <stdlib.h>
 #include <string.h>
 #include <stdio.h>
@@ -112,13 +113,35 @@ void execute_command(struct sJeu *g, char *ligne_cmd) {
         cmd_drop(g, obj);
     } else if (strcmp(cmd, "fight") == 0 || strcmp(cmd, "f") == 0) {
         cmd_fight(g);
+    } else if (strcmp(cmd, "save") == 0) {
+        char *fichier = strtok(NULL, " "); // recup nom fichier
+        if (fichier == NULL) {
+            UI_DefinirMessage(g->ui, "Usage: save <fichier>");
+        } else {
+            if (SaveEcrire(fichier, g->d, g->j)) {
+                UI_DefinirMessage(g->ui, "Partie sauvegardee dans %s", fichier);
+            } else {
+                UI_DefinirMessage(g->ui, "Erreur lors de la sauvegarde");
+            }
+        }
+    } else if (strcmp(cmd, "load") == 0) {
+        char *fichier = strtok(NULL, " "); // recup nom fichier 
+        if (fichier == NULL) {
+            UI_DefinirMessage(g->ui, "Usage: load <fichier>");
+        } else {
+            if (SaveLire(fichier, g->d, g->j)) {
+                UI_DefinirMessage(g->ui, "Partie chargee depuis %s", fichier);
+            } else {
+                UI_DefinirMessage(g->ui, "Erreur lors du chargement");
+            }
+        }
     } else {
         UI_DefinirMessage(g->ui, "Commande inconnue");
     }
 }
 
 void cmd_help(struct sJeu *g) {
-    UI_DefinirMessage(g->ui, "Commandes: n/e/s/w | take <obj> | drop <obj> | fight | quit | help");
+    UI_DefinirMessage(g->ui, "Commandes: n/e/s/w | take <obj> | drop <obj> | fight | save <fichier> | load <fichier> | quit | help");
 }
 
 int cmd_move(struct sJeu *g, int dx, int dy) {

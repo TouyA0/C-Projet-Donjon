@@ -164,6 +164,7 @@ int InventaireVisiter (const tInventaire inv, int (*visiter)(const char *nom, in
 
     struct sItem *tmp = inv->debut;
     while (tmp != NULL) {
+        // chaque objet individuellement subit la fonction
         if (visiter(tmp->nom, tmp->quantite, contexte) == 0) {
             return 0;
         }

@@ -114,6 +114,7 @@ int EnnemiAttaquerJoueur(const tEnnemi e, tJoueur j) {
     return degats;
 }
 
+
 void EnnemiMajPV(tEnnemi e, int pv) {
     if (e == NULL) {
         return;
