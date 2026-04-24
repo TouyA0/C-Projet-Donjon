@@ -17,7 +17,7 @@ TEST_DONJON_OBJECTS = test_donjon.o
 MAIN_SOURCES = main.c
 MAIN_OBJECTS = main.o
 
-.PHONY: donjon test_inventaire test_donjon clean help
+.PHONY: donjon test_inventaire test_donjon clean
 
 donjon: $(MAIN_OBJECTS) $(OBJECTS)
 	$(CC) $(CFLAGS) -o donjon $(MAIN_OBJECTS) $(OBJECTS) $(LDFLAGS)

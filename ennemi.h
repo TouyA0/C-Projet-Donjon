@@ -7,8 +7,8 @@
 
 // Structure privée d’un ennemi
 struct sEnnemi {
-char nom [ NOM_MAX ]; // NOM_MAX est à 32
-int pv , pvMax , atk , def ;
+    char nom [ NOM_MAX ]; // NOM_MAX est à 32
+    int pv , pvMax , atk , def ;
 };
 
 // Type public ( pointeur vers structure privée)
